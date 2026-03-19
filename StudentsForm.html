@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gray-200 flex flex-col items-center p-6">
+
+    <!-- Title -->
+    <h1 class="text-4xl font-bold mb-6">Student Form</h1>
+
+    <!-- Form -->
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md space-y-4">
+
+       Name: <input id="name" type="text" placeholder="Enter your Name" class="w-full p-2 border rounded">
+
+        Age:<input id="age" type="number" placeholder="Enter your Age" class="w-full p-2 border rounded">
+
+        <!-- Gender -->
+         <h3 >Gender:</h3>
+        <div class="w-full p-2 border rounded">
+            <label class="mr-4">
+                <input type="radio" name="gender" value="Male"> Male
+            </label>
+            <label>
+                <input type="radio" name="gender" value="Female"> Female
+            </label>
+        </div>
+
+        <!-- Course -->
+         <h3>Course:</h3>
+        <div id="course">
+            <select  class="w-full p-2 border rounded">
+            <option>Java Programming</option>
+            <option>Python Programming</option>
+            <option>C++</option>
+            <option>Web Development</option>
+            <option>AI & ML</option>
+        </select>
+        <input type="text" placeholder="others" class="w-full p-2 border rounded">
+        </div>
+
+        Email:<input id="email" type="email" placeholder="Email" class="w-full p-2 border rounded">
+
+        <button onclick="addStudent()" class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+            Save
+        </button>
+    </div>
+
+    <!-- Table -->
+    <div class="mt-8 w-full max-w-4xl">
+        <table class="w-full border border-gray-400 text-center">
+            <thead class="bg-gray-300">
+                <tr>
+                    <th class="border p-2">Name</th>
+                    <th class="border p-2">Age</th>
+                    <th class="border p-2">Course</th>
+                    <th class="border p-2">Gender</th>
+                    <th class="border p-2">Email</th>
+                    <th class="border p-2">Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function addStudent() {
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            let course = document.getElementById("course").value;
+            let email = document.getElementById("email").value;
+
+            let genderElement = document.querySelector('input[name="gender"]:checked');
+            let gender = genderElement ? genderElement.value : "";
+
+            // Validation
+            if (name === "" || age === "" || gender === "" || email === "") {
+                alert("Please fill all fields");
+                return;
+            }
+
+            let table = document.getElementById("tableBody");
+
+            let row = table.insertRow();
+
+            row.innerHTML = `
+                <td class="border p-2">${name}</td>
+                <td class="border p-2">${age}</td>
+                <td class="border p-2">${course}</td>
+                <td class="border p-2">${gender}</td>
+                <td class="border p-2">${email}</td>
+                <td class="border p-2">
+                    <button onclick="deleteRow(this)" class="bg-red-500 text-white px-2 py-1 rounded">
+                        Delete
+                    </button>
+                </td>
+            `;
+
+            // Clear form
+            document.getElementById("name").value = "";
+            document.getElementById("age").value = "";
+            document.getElementById("email").value = "";
+            document.querySelectorAll('input[name="gender"]').forEach(r => r.checked = false);
+        }
+
+        function deleteRow(button) {
+            let row = button.parentElement.parentElement;
+            row.remove();
+        }
+    </script>
+
+</body>
+</html>
