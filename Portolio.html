@@ -4,8 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kishore Portfolio</title>
-    <link rel="stylesheet" href="Portfolio.css">
+    
 </head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary: #1404fa;
+    --secondary: #06b6d4;
+    --bg-dark: #0f172a;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --text: #e2e8f0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    color: var(--text);
+    background: linear-gradient(-45deg, #0f172a, #1e293b, #1e3a8a, #0ea5e9);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+}
+
+/* Background animation */
+@keyframes gradientMove {
+    0% { background-position: 0% }
+    50% { background-position: 100% }
+    100% { background-position: 0% }
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #4f46e5, #06b6d4);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+header p {
+    opacity: 0.8;
+}
+
+/* Sections */
+section {
+    padding: 30px;
+    max-width: 900px;
+    margin: auto;
+}
+
+/* Cards */
+.card, .certificate-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s;
+}
+
+/* Hover */
+.card:hover, .certificate-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border: 1px solid var(--secondary);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #1e293b;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #4f46e5, #06b6d4);
+    transition: width 1.5s ease;
+}
+
+/* Percent */
+.percent-text {
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+/* Button */
+.btn {
+    padding: 8px 15px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #4f46e5, #06b6d4);
+    color: white;
+    font-size: 0.9rem;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.btn:hover {
+    box-shadow: 0 0 15px #06b6d4;
+    transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    opacity: 0.6;
+}
+
+/* Scroll animation */
+.hidden {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s ease;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
 <body>
 
 <!-- Header -->
@@ -19,7 +146,7 @@
     <h2>About Me</h2>
     <p>
         I am a BCA AI & DS student passionate about frontend development and AI-based projects.
-        I am an aspiring Full-Stack Developer and Data Analyst currently upskilling through Coursera.  I have hands-on experience with Java, HTML, CSS, and JavaScript, and I have built a personal website to apply these technologies in practice. I have a strong foundation in mathematics, along with basic problem-solving and communication skills. I am actively learning backend development, databases, and data analysis techniques to build efficient, data-driven applications.
+        I am an aspiring Full-Stack Developer and Data Analyst currently upskilling through Coursera. I have hands-on experience with Java, HTML, CSS, and JavaScript, and I have built a personal website to apply these technologies in practice. I have a strong foundation in mathematics, along with basic problem-solving and communication skills. I am actively learning backend development, databases, and data analysis techniques to build efficient, data-driven applications.
         I enjoy building real-world applications like AI projects and web apps.
     </p>
 </section>
@@ -116,6 +243,70 @@
     <p>© 2026 Kishore K</p>
 </footer>
 
-<script src="portfolio.js"></script>
+<script>
+    // Typing effect
+const text = "Frontend Developer | AI Enthusiast";
+let i = 0;
+
+function typingEffect() {
+    if (i < text.length) {
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typingEffect, 50);
+    }
+}
+typingEffect();
+
+
+// Scroll animation
+const elements = document.querySelectorAll("section, .card, .certificate-card");
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+        }
+    });
+});
+
+elements.forEach(el => {
+    el.classList.add("hidden");
+    observer.observe(el);
+});
+
+
+// Progress bar animation
+const certificates = document.querySelectorAll(".certificate-card");
+
+function animateProgress() {
+    certificates.forEach(card => {
+        const progress = card.querySelector(".progress");
+        const percentText = card.querySelector(".percent-text");
+        const target = card.getAttribute("data-percent");
+
+        let count = 0;
+
+        const interval = setInterval(() => {
+            if (count >= target) {
+                clearInterval(interval);
+            } else {
+                count++;
+                progress.style.width = count + "%";
+                percentText.innerText = count + "%";
+            }
+        }, 15);
+    });
+}
+
+// Trigger when visible
+window.addEventListener("scroll", () => {
+    const section = document.getElementById("certificates");
+    const position = section.getBoundingClientRect().top;
+
+    if (position < window.innerHeight - 100) {
+        animateProgress();
+    }
+});
+</script>
 </body>
 </html>
